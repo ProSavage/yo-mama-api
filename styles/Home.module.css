@@ -16,6 +16,19 @@
   align-items: center;
 }
 
+.spacer {
+  margin: 1em;
+}
+
+.row {
+  display: flex;
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+}
+
 .footer {
   width: 100%;
   height: 100px;

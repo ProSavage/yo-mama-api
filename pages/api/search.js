@@ -1,13 +1,15 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
-import getJokes from "../../jokes";
+import { connectToDatabase } from "../../mongodb";
 
 export default async (req, res) => {
   const { search } = req.body;
 
-  const jokes = getJokes();
+  const { db } = await connectToDatabase();
 
-  const filteredJokes = jokes.filter((joke) => joke.includes(search));
+  const jokes = await db
+    .collection("jokes")
+    .find({ $text: { $search: search } })
+    .toArray();
 
-  const randomJoke = filteredJokes[Math.floor(Math.random() * filteredJokes.length)];
-  res.status(200).json({ joke: randomJoke.normalize() });
+  res.status(200).json({ jokes });
 };

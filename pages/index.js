@@ -4,18 +4,17 @@ import { useEffect, useState } from "react";
 import styles from "../styles/Home.module.css";
 
 export default function Home() {
-
   const [joke, setJoke] = useState("");
 
+  const [search, setSearch] = useState("");
 
   const fetchRandomJoke = () => {
-    axios.get("/api/random").then(res => setJoke(res.data.joke))
-  }
-
+    axios.get("/api/random").then((res) => setJoke(res.data.joke.joke));
+  };
 
   useEffect(() => {
-    fetchRandomJoke()
-  }, [])
+    fetchRandomJoke();
+  }, []);
 
   return (
     <div className={styles.container}>
@@ -24,8 +23,23 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <h1>Yo Mama Jokes API</h1>
-     <p> <strong>{joke}</strong></p>
-      <button onClick={fetchRandomJoke}>Random Joke</button>
+
+      <strong>{joke}</strong>
+      <div className={styles.spacer + " " + styles.row}>
+        <div className={styles.column}>
+          <label>
+            <strong>Search</strong>
+          </label>
+          <input
+            type={"text"}
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+          />
+        </div>
+        <div className={styles.spacer}>
+          <button onClick={fetchRandomJoke}>Random Joke</button>
+        </div>
+      </div>
     </div>
   );
 }
